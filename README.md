@@ -3,19 +3,19 @@
 
 ## 🚀 Features
 
-- 🤖 **AI Email Classification**  
+- **AI Email Classification**  
   Automatically tags emails as **Urgent**, **Question**, **Feedback**, or **Spam** using Google Gemini API.
 
-- 😠 **Sentiment Analysis**  
+- **Sentiment Analysis**  
   Detects tone (e.g., **Angry**, **Neutral**, **Positive**) to help prioritize customer pain points.
 
-- ✍️ **Smart Reply Suggestions**  
+- **Smart Reply Suggestions**  
   Instantly generate response drafts in a customizable tone (e.g., **Friendly**, **Professional**).
 
-- 👥 **Real-Time Collaboration**  
+- **Real-Time Collaboration**  
   See which emails your teammates are working on (via Supabase Realtime presence tracking).
 
-- 📊 **Priority Inbox**  
+- **Priority Inbox**  
   AI ranks emails based on urgency + sentiment. Color-coded for quick scanning.
 
 ## 🧠 Tech Stack
