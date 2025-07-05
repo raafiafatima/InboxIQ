@@ -1,4 +1,4 @@
-# 📬 InboxIQ
+# InboxIQ: AI-powered customer support that thinks before you do.
 **AI-powered customer support dashboard** that helps small businesses triage incoming emails, generate smart replies, and collaborate in real time — all using modern open-source tools and AI.
 
 ## 🚀 Features
@@ -18,7 +18,7 @@
 - **Priority Inbox**  
   AI ranks emails based on urgency + sentiment. Color-coded for quick scanning.
 
-## 🧠 Tech Stack
+## Tech Stack
 
 | Category      | Tech                        | Purpose |
 |---------------|-----------------------------|---------|
@@ -28,11 +28,3 @@
 | Hosting       | Vercel                      | Easy, free-tier deployments |
 | Realtime      | Supabase Realtime           | Live updates + user presence |
 
-## 🛠️ Setup Instructions
-
-**Clone the repo** 
-git clone https://github.com/raafiafatima/inboxiq.git
-cd inboxiq
-
-**Install Dependencies**
-npm install 
