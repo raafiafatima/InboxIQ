@@ -1,9 +1,10 @@
-import Header from "./Header.jsx";
+import { LoginPage } from "./views/LogIn/Login";
+
 
 function App() {
   return(
     <>
-    <Header></Header>
+    <LoginPage></LoginPage>
     </>
   )
 }
