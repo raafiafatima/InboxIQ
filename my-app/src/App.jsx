@@ -1,12 +1,14 @@
-import { LoginPage } from "./views/LogIn/Login";
-
+import AppRouter from "./config/router";
+import { BrowserRouter, Navigate } from "react-router-dom";
 
 function App() {
-  return(
+  return (
     <>
-    <LoginPage></LoginPage>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
 export default App;

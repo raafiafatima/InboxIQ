@@ -1,31 +1,49 @@
-import React, { useState } from 'react'
-import { LuMail } from "react-icons/lu";
-import { CiLock } from "react-icons/ci";
+import React, { useState } from "react";
+import { LockKeyhole, Mail } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import supabase  from "../../config/supabaseCredentials";
 
-export const LoginPage = ({ onLogin }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const handleSubmit = (e) => {
-    e.preventDefault()
+const Login = () => {
+  const [email, setEmail] = useState(""); // set email
+  const [password, setPassword] = useState(""); // set password
+  const [error, setError] = useState(""); // set and show error
+  const [loading, setLoading] = useState(false); // show that it is verifying
+  const navigate = useNavigate(); // to navigate to Inbox Page one authenticated
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
     // Simple validation
     if (!email || !password) {
-      setError('Please enter both email and password')
-      return
+      setError("Please enter both email and password");
+      return;
     }
-    // Mock authentication - in a real app, this would call an API
-    if (email === 'admin@example.com' && password === 'password') {
-      onLogin()
-    } else {
-      setError('Invalid credentials. Try admin@example.com / password')
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword(
+        {
+          email: email.trim(),
+          password: password.trim(),
+        }
+      );
+
+      if(authError) throw authError
+
+      navigate("/inbox");
+    } catch (error) {
+      setError(error.message || "Invalid Credentials");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-blue-600">InboxIQ</h1>
-          <p className="mt-2 text-sm text-gray-600">Admin Login</p>
+          <p className="mt-2 text-sm text-gray-600">
+            Welcome to Admin Login Page!{" "}
+          </p>
         </div>
         {error && (
           <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
@@ -43,7 +61,7 @@ export const LoginPage = ({ onLogin }) => {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <LuMail  size={18} className='text-gray-400'/>
+                  <Mail size={18} className="text-gray-400" />
                 </div>
                 <input
                   id="email"
@@ -66,7 +84,7 @@ export const LoginPage = ({ onLogin }) => {
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                 <CiLock size={18} className='text-gray-400'/>
+                  <LockKeyhole size={18} className="text-gray-400" />
                 </div>
                 <input
                   id="password"
@@ -81,47 +99,22 @@ export const LoginPage = ({ onLogin }) => {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-700"
-              >
-                Remember me
-              </label>
-            </div>
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-              </span>
-              Sign in
-            </button>
+            
+              <button
+                type="submit"
+                disabled={loading}
+                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'opacity-75 cursor-not-allowed' : ''}`}
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3"></span>
+                {loading ? 'Verifying...' : 'Sign in'}
+              </button>
+            
           </div>
         </form>
-        <div className="mt-6">
-          <p className="text-center text-xs text-gray-600">
-            For demo purposes, use: admin@example.com / password
-          </p>
-        </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default Login;
