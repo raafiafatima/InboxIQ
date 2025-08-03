@@ -9,19 +9,21 @@ import {
 } from "react-router-dom";
 import Layout from "./Layout.jsx";
 import Login from "./component/Login/Login.jsx";
-
+import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 // created Router with two pages, one login and other main
 const router = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<Layout />}>
-      <Route path="" element={<Login />} />
-      <Route path="main" element={<App />} />
+      <Route path="login" element={<Login />} />
+      <Route path="dashboard" element={<App />} />
     </Route>
   )
 );
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthContextProvider>
+      <RouterProvider router={router} />
+    </AuthContextProvider>
   </StrictMode>
 );
