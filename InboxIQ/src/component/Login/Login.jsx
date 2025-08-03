@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { LockKeyhole, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import supabase  from "../../config/supabaseCredentials";
+// import supabase  from "../../config/supabaseCredentials";
 
 const Login = () => {
   const [email, setEmail] = useState(""); // set email
@@ -10,39 +10,39 @@ const Login = () => {
   const [loading, setLoading] = useState(false); // show that it is verifying
   const navigate = useNavigate(); // to navigate to Inbox Page one authenticated
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    // Simple validation
-    if (!email || !password) {
-      setError("Please enter both email and password");
-      return;
-    }
-    try {
-      const { data, error: authError } = await supabase.auth.signInWithPassword(
-        {
-          email: email.trim(),
-          password: password.trim(),
-        }
-      );
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError("");
+//     // Simple validation
+//     if (!email || !password) {
+//       setError("Please enter both email and password");
+//       return;
+//     }
+//     try {
+//       const { data, error: authError } = await supabase.auth.signInWithPassword(
+//         {
+//           email: email.trim(),
+//           password: password.trim(),
+//         }
+//       );
 
-      if(authError) throw authError
+//       if(authError) throw authError
 
-      navigate("/inbox");
-    } catch (error) {
-      setError(error.message || "Invalid Credentials");
-    } finally {
-      setLoading(false);
-    }
-  };
+//       navigate("/inbox");
+//     } catch (error) {
+//       setError(error.message || "Invalid Credentials");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-blue-600">InboxIQ</h1>
+          <h1 className="text-2xl font-bold text-blue-600"> Admin Login</h1>
           <p className="mt-2 text-sm text-gray-600">
-            Welcome to Admin Login Page!{" "}
+            Welcome!{" "}
           </p>
         </div>
         {error && (
@@ -50,7 +50,8 @@ const Login = () => {
             {error}
           </div>
         )}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6" >
+            {/* onSubmit={handleSubmit} */}
           <div className="space-y-4">
             <div>
               <label
