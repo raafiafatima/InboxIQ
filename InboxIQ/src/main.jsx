@@ -1,6 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
 import {
   createBrowserRouter,
   createRoutesFromChildren,
@@ -10,13 +9,17 @@ import {
 import Layout from "./Layout.jsx";
 import Login from "./component/Login/Login.jsx";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
+import Home from "./component/Home/Home.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
+import Dashboard from "./component/Dashboard/Dashboard.jsx";
 
 // created Router with two pages, one login and other main
 const router = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<Layout />}>
+      <Route path="" element= {<Home/>}/>
       <Route path="login" element={<Login />} />
-      <Route path="dashboard" element={<App />} />
+      <Route path="dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
     </Route>
   )
 );

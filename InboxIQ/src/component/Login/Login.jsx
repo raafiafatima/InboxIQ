@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LockKeyhole, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -11,7 +11,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false); // show that it is verifying
   const navigate = useNavigate(); // to navigate to Inbox Page one authenticated
 
-  const { signIn} = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ const Login = () => {
     // Simple validation
     if (!email || !password) {
       setError("Please enter both email and password");
+      setLoading(false);
       return;
     }
     try {
@@ -43,12 +44,22 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError(null);
+      }, [3000]);
+      return () => clearTimeout(timeout);
+    }
+    
+  }, [error]);
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-[#156874]">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-lg">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-blue-600"> Admin Login</h1>
-          <p className="mt-2 text-sm text-gray-600">Welcome! </p>
+          <h1 className="text-2xl font-bold text-[#156874]"> Admin Login</h1>
+          <p className="mt-2 text-sm font-bold text-gray-600">Welcome! </p>
         </div>
         {error && (
           <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
@@ -73,7 +84,7 @@ const Login = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#156874] focus:border-[#156874]"
                   placeholder="admin@example.com"
                 />
               </div>
@@ -104,7 +115,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`group relative w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+              className={`group relative w-full hover: cursor-pointer flex justify-center py-2 px-4 border border-transparent rounded-md text-white bg-[#156874] hover:bg-[#0f5057] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#156874] ${
                 loading ? "opacity-75 cursor-not-allowed" : ""
               }`}
             >

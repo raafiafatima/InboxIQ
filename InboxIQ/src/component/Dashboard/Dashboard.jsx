@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useAuth } from "./context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-function App() {
+function Dashboard() {
   const { signOutUser } = useAuth();
   const [error, setError] = useState();
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ function App() {
   };
   return (
     <>
-      <h1 className="text-2xl text-center bg-green-200">
+      <h1 className="text-2xl text-center text-white bg-[#156874]">
         InboxIQ: AI powered Email Responding Application
       </h1>
 
@@ -28,7 +28,7 @@ function App() {
       {error ? (
         <>
           <div>
-            <p className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+            <p className="p-3 text-sm text-red-600 bg-red-50 rounded-md hover: cursor-pointer ">
               Error Signing Out
             </p>
           </div>
@@ -38,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;
