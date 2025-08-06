@@ -1,17 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import Navigation from "../ui/Navigation";
+import { Sidebar } from "../ui/Sidebar";
 
 function Dashboard() {
   const { signOutUser } = useAuth();
   const [error, setError] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSignOut = async (e) => {
     e.preventDefault();
     try {
       const errorMsg = await signOutUser();
-      navigate('/login')
+      navigate("/login");
       setError(errorMsg);
     } catch (error) {
       console.log("There is a problem signing out");
@@ -19,11 +21,9 @@ function Dashboard() {
   };
   return (
     <>
-      <h1 className="text-2xl text-center text-white bg-[#156874]">
-        InboxIQ: AI powered Email Responding Application
-      </h1>
 
-      <button onClick={handleSignOut}>Sign Out</button>
+      {/* sign out logic */}
+      {/* <button onClick={handleSignOut}>Sign Out</button>
 
       {error ? (
         <>
@@ -33,7 +33,10 @@ function Dashboard() {
             </p>
           </div>
         </>
-      ) : null}
+      ) : null} */}
+
+      {/* <Navigation/> */}
+      <Sidebar/>
     </>
   );
 }

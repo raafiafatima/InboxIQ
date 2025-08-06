@@ -19,7 +19,7 @@ function Home() {
           <button
             className="mt-12 hover: cursor-pointer text-[#156874] font-medium text-xl group relative w-full flex justify-center py-2 px-5 border border-transparent rounded-full bg-[#EDE6E6] hover:bg-[#dad3d3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#EDE6E6]"
             onClick={() => {
-              navigate("login");
+              navigate("dashboard");
             }}
           >
             <FlipText line={1.2} sizeClass="text-xl">CONTINUE</FlipText>
