@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  LayoutDashboard,
   Mail,
   AlertCircle,
   Trash2,
@@ -9,33 +8,51 @@ import {
   Settings,
   LogOut,
 } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 export const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const {signOut} = useAuth()
+  const navigate = useNavigate()
+
+  const handleSignOut = async (e) =>{
+    e.preventDefault();
+    try {
+      let er = await signOut()
+      if(!er){
+        navigate('/login')
+      }
+      
+    } catch (error) {
+      console.log('Signout Error :: ',error)
+    }
+  }
+
   const categories = [
     {
       id: 'all',
       label: 'All Inbox',
-      icon: <Mail size={18} className="text-[#156874]" />,
+      icon: <Mail size={18} className="text-[#156874]" strokeWidth={2.5}  />,
     },
     {
       id: 'urgent',
       label: 'Urgent',
-      icon: <AlertCircle size={18} className="text-[#156874]" />,
+      icon: <AlertCircle size={18} className="text-[#156874]" strokeWidth={2.5}  />,
     },
     {
       id: 'spam',
       label: 'Spam',
-      icon: <Trash2 size={18} className="text-[#156874]" />,
+      icon: <Trash2 size={18} className="text-[#156874]" strokeWidth={2.5}  />,
     },
     {
       id: 'feedback',
       label: 'Feedback',
-      icon: <MessageSquare size={18} className="text-[#156874]" />,
+      icon: <MessageSquare size={18} className="text-[#156874]" strokeWidth={2.5}  />,
     },
     {
       id: 'inquiry',
       label: 'General Inquiry',
-      icon: <HelpCircle size={18} className="text-[#156874]" />,
+      icon: <HelpCircle size={18} className="text-[#156874]" strokeWidth={2.5}  />,
     },
   ]
   return (
@@ -95,13 +112,14 @@ export const Sidebar = ({ selectedCategory, setSelectedCategory }) => {
           <button
             className={`flex items-center ${isHovered ? 'px-4 justify-start' : 'justify-center'} py-2 text-gray-700 hover:bg-gray-100 w-full text-left rounded-md`}
           >
-            <Settings size={18} className={isHovered ? 'mr-3' : ''} />
+            <Settings size={18} className={isHovered ? 'mr-3' : ''} strokeWidth={2.5} />
             {isHovered && <span>Settings</span>}
           </button>
           <button
             className={`flex items-center ${isHovered ? 'px-4 justify-start' : 'justify-center'} py-2 text-gray-700 hover:bg-gray-100 w-full text-left rounded-md`}
+            onClick={handleSignOut}
           >
-            <LogOut size={18} className={isHovered ? 'mr-3' : ''} />
+            <LogOut size={18} className={isHovered ? 'mr-3' : ''} strokeWidth={2.5} />
             {isHovered && <span>Logout</span>}
           </button>
         </div>

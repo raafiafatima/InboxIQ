@@ -17,9 +17,18 @@ import Dashboard from "./component/Dashboard/Dashboard.jsx";
 const router = createBrowserRouter(
   createRoutesFromChildren(
     <Route path="/" element={<Layout />}>
-      <Route path="" element= {<Home/>}/>
+      <Route path="" element={<Home />} />
       <Route path="login" element={<Login />} />
-      <Route path="dashboard" element={<Dashboard />} />
+      {/* <Route
+        path="dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      /> */} 
+      {/* uncomment when adding private routes */}
+      <Route path="dashboard" element = {<Dashboard/>}/>
     </Route>
   )
 );
