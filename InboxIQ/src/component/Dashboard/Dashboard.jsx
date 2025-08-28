@@ -1,41 +1,33 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { Sidebar } from "../ui/Sidebar";
+import EmailList from "../Email/EmailList";
 
 function Dashboard() {
-  const { signOutUser } = useAuth();
-  const [error, setError] = useState();
-  const navigate = useNavigate();
-
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    try {
-      const errorMsg = await signOutUser();
-      navigate("/login");
-      setError(errorMsg);
-    } catch (error) {
-      console.log("There is a problem signing out");
-    }
-  };
+  const [selectedEmail, setSelectedEmail] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState('all')
   return (
     <>
-
-      {/* sign out logic */}
-      {/* <button onClick={handleSignOut}>Sign Out</button>
-
-      {error ? (
-        <>
-          <div>
-            <p className="p-3 text-sm text-red-600 bg-red-50 rounded-md hover: cursor-pointer ">
-              Error Signing Out
-            </p>
+    <div className="flex flex-col h-screen bg-gray-50">
+     <div className="flex flex-1 overflow-hidden">
+        <Sidebar
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <EmailList
+          selectedEmail={selectedEmail}
+          setSelectedEmail={setSelectedEmail}
+          selectedCategory={selectedCategory}
+        />
+        {/* {selectedEmail ? (
+          <EmailDetail email={selectedEmail} />
+        ) : (
+          <div className="hidden md:flex flex-1 items-center justify-center text-gray-400 bg-white">
+            <p className="text-lg">Select an email to view details</p>
           </div>
-        </>
-      ) : null} */}
-
-      {/* <Navigation/> */}
-      <Sidebar/>
+        )} */}
+      </div>
+    </div>
+      {/* <Sidebar/> */}
     </>
   );
 }
