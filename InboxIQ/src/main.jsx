@@ -26,7 +26,7 @@ const router = createBrowserRouter(
             <Dashboard />
           </PrivateRoute>
         }
-      /> */} 
+      />  */}
       {/* uncomment when adding private routes */}
       <Route path="dashboard" element = {<Dashboard/>}/>
     </Route>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Sidebar } from "../ui/Sidebar";
 import EmailList from "../Email/EmailList";
+import  EmailDetail  from "../Email/EmailDetail";
 
 function Dashboard() {
   const [selectedEmail, setSelectedEmail] = useState(null)
@@ -18,13 +19,13 @@ function Dashboard() {
           setSelectedEmail={setSelectedEmail}
           selectedCategory={selectedCategory}
         />
-        {/* {selectedEmail ? (
+        {selectedEmail ? (
           <EmailDetail email={selectedEmail} />
         ) : (
           <div className="hidden md:flex flex-1 items-center justify-center text-gray-400 bg-white">
-            <p className="text-lg">Select an email to view details</p>
+            <p className="text-md">Select an email to view details</p>
           </div>
-        )} */}
+        )}
       </div>
     </div>
     </>
