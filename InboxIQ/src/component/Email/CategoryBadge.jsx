@@ -2,8 +2,8 @@ import React from 'react'
 import { AlertCircle, Trash2, MessageSquare, HelpCircle } from 'lucide-react'
 export const CategoryBadge = ({ category }) => {
   const categoryConfig = {
-    urgent: {
-      label: 'Urgent',
+    complaint: {
+      label: 'Complaint',
       icon: <AlertCircle size={12} />,
       classes: 'bg-red-100 text-red-800',
     },
@@ -17,8 +17,8 @@ export const CategoryBadge = ({ category }) => {
       icon: <MessageSquare size={12} />,
       classes: 'bg-purple-100 text-purple-800',
     },
-    inquiry: {
-      label: 'Inquiry',
+    question: {
+      label: 'Question',
       icon: <HelpCircle size={12} />,
       classes: 'bg-blue-100 text-blue-800',
     },

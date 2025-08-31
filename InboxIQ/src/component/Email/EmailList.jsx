@@ -14,60 +14,6 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
     fetchEmails();
   }, []);
 
-  //   const emails = [
-  //     {
-  //       id: 1,
-  //       sender: "Sarah Johnson",
-  //       company: "Acme Corp",
-  //       subject: "Urgent: Server Downtime Issue",
-  //       preview:
-  //         "We are experiencing critical server issues affecting our operations...",
-  //       time: "10:45 AM",
-  //       read: false,
-  //       category: "urgent",
-  //       sentiment: "negative",
-  //     },
-  //     {
-  //       id: 2,
-  //       sender: "Michael Brown",
-  //       company: "Tech Solutions",
-  //       subject: "Feedback on Recent Implementation",
-  //       preview:
-  //         "Thank you for the recent software update. Our team has been reviewing...",
-  //       time: "9:30 AM",
-  //       read: true,
-  //       category: "feedback",
-  //       sentiment: "positive",
-  //     },
-  //     {
-  //       id: 3,
-  //       sender: "Emily Davis",
-  //       company: "Marketing Inc.",
-  //       subject: "Question about your services",
-  //       preview:
-  //         "I came across your website and would like to learn more about...",
-  //       time: "Yesterday",
-  //       read: true,
-  //       category: "inquiry",
-  //       sentiment: "neutral",
-  //     },
-  //     {
-  //       id: 4,
-  //       sender: "John Smith",
-  //       company: "Unknown",
-  //       subject: "Exclusive Offer Just For You",
-  //       preview:
-  //         "CONGRATULATIONS! You have been selected to receive our exclusive...",
-  //       time: "Yesterday",
-  //       read: true,
-  //       category: "spam",
-  //       sentiment: "neutral",
-  //     },
-  //   ];
-  //   const filteredEmails =
-  //     selectedCategory === "all"
-  //       ? emails
-  //       : emails.filter((email) => email.category === selectedCategory);
   const filteredEmails =
     selectedCategory == "all"
       ? email
@@ -75,13 +21,19 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
   console.log(filteredEmails);
   return (
     <div className="w-full md:w-96 bg-white border-r border-gray-200 overflow-y-auto">
+      <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 className="text-lg font-medium">Inbox</h2>
+        <div className="text-sm text-gray-500">
+          {filteredEmails.length} messages
+        </div>
+      </div>
       <div className="divide-y divide-gray-200">
         {filteredEmails.map((email) => (
           <div
             key={email.id}
             className={`p-4 cursor-pointer hover:bg-gray-50 ${
               selectedEmail && selectedEmail.id === email.id ? "bg-blue-50" : ""
-            } ${!email.read ? "bg-blue-50" : ""}`}
+            }`}
             onClick={() => setSelectedEmail(email)}
           >
             <div className="flex justify-between items-start mb-1">

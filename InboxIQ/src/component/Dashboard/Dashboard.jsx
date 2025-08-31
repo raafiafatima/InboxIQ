@@ -27,7 +27,6 @@ function Dashboard() {
         )} */}
       </div>
     </div>
-      {/* <Sidebar/> */}
     </>
   );
 }
