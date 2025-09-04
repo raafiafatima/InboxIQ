@@ -1,15 +1,18 @@
 import { Clock } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { CategoryBadge } from "./CategoryBadge";
-import {  getEmails } from "../../supabaseClient";
+import { getEmails } from "../../supabaseClient";
 
 function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
   const [email, setEmail] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchEmails() {
+      setLoading(true)
       const data = await getEmails();
       setEmail(data);
+      setLoading(false);
     }
     fetchEmails();
   }, []);
@@ -27,7 +30,33 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
           {filteredEmails.length} messages
         </div>
       </div>
-      <div className="divide-y divide-gray-200">
+      {/* loading state */}
+      {loading ? (
+<div className="flex items-center justify-center py-10 text-gray-600">
+          <svg
+            className="animate-spin h-5 w-5 mr-2 text-[#156874]"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            />
+          </svg>
+          Loading emails...
+        </div>
+      ) : (
+        <div className="divide-y divide-gray-200">
         {filteredEmails.map((email) => (
           <div
             key={email.id}
@@ -38,7 +67,10 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
           >
             <div className="flex justify-between items-start mb-1">
               <div className="font-medium text-sm">
-                Email : <span className="text-xs text-gray-800 font-medium">{(email.sender).toUpperCase()}</span>
+                Email :{" "}
+                <span className="text-xs text-gray-800 font-medium">
+                  {email.sender.toUpperCase()}
+                </span>
               </div>
               <div className="text-sm text-gray-500 flex items-center">
                 <Clock size={12} className="mr-1" />
@@ -62,6 +94,8 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
           </div>
         ))}
       </div>
+      )}
+      
     </div>
   );
 }
