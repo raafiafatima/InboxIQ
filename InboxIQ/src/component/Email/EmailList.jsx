@@ -9,7 +9,7 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
 
   useEffect(() => {
     async function fetchEmails() {
-      setLoading(true)
+      setLoading(true);
       const data = await getEmails();
       setEmail(data);
       setLoading(false);
@@ -32,7 +32,7 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
       </div>
       {/* loading state */}
       {loading ? (
-<div className="flex items-center justify-center py-10 text-gray-600">
+        <div className="flex items-center justify-center py-10 text-gray-600">
           <svg
             className="animate-spin h-5 w-5 mr-2 text-[#156874]"
             xmlns="http://www.w3.org/2000/svg"
@@ -57,45 +57,53 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
         </div>
       ) : (
         <div className="divide-y divide-gray-200">
-        {filteredEmails.map((email) => (
-          <div
-            key={email.id}
-            className={`p-4 cursor-pointer hover:bg-gray-50 ${
-              selectedEmail && selectedEmail.id === email.id ? "bg-blue-50" : ""
-            }`}
-            onClick={() => setSelectedEmail(email)}
-          >
-            <div className="flex justify-between items-start mb-1">
-              <div className="font-medium text-sm">
-                Email :{" "}
-                <span className="text-xs text-gray-800 font-medium">
-                  {email.sender.toUpperCase()}
-                </span>
+          {filteredEmails.map((email) => {
+            const date = email.created_at
+              ? new Date(email.created_at)
+              : "No date";
+            const formattedDate = date.toLocaleString("en-US", {
+              month: "short",
+              day: "numeric",
+            });
+            return <div
+              key={email.id}
+              className={`p-4 cursor-pointer hover:bg-gray-50 ${
+                selectedEmail && selectedEmail.id === email.id
+                  ? "bg-blue-50"
+                  : ""
+              }`}
+              onClick={() => setSelectedEmail(email)}
+            >
+              <div className="flex justify-between items-start mb-1">
+                <div className="font-medium text-sm">
+                  Email :{" "}
+                  <span className="text-xs text-gray-800 font-medium">
+                    {email.sender.toUpperCase()}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-500 flex items-center">
+                  <Clock size={12} className="mr-1" />
+                  {formattedDate}
+                </div>
               </div>
-              <div className="text-sm text-gray-500 flex items-center">
-                <Clock size={12} className="mr-1" />
-                {email.time}
+              <div className="flex justify-between">
+                <h3 className={`text-sm ${!email.read ? "font-semibold" : ""}`}>
+                  {email.subject}
+                </h3>
               </div>
-            </div>
-            <div className="flex justify-between">
-              <h3 className={`text-sm ${!email.read ? "font-semibold" : ""}`}>
-                {email.subject}
-              </h3>
-            </div>
-            <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-              {email.body}
-            </p>
-            <div className="mt-2 flex justify-between items-center">
-              <CategoryBadge category={email.category} />
-              {!email.read && (
-                <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+              <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                {email.body}
+              </p>
+              <div className="mt-2 flex justify-between items-center">
+                <CategoryBadge category={email.category} />
+                {!email.read && (
+                  <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
+                )}
+              </div>
+            </div>;
+          })}
+        </div>
       )}
-      
     </div>
   );
 }
