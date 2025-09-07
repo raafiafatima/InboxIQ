@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReplyChain from "../../SmartReply";
-import { Clock, Download, Paperclip } from "lucide-react";
+import { Clock} from "lucide-react";
 import { titleCase } from "title-case";
 
 // create and export the chain, invoke once the specified email is clicked
 function EmailDetail({ email }) {
-  const [loding, setLoading] = useState(true); // for when the modal is invoked and response is being generated
-  const [reply, setReply] = useState(null); // the smart reply we get from llm
   const[selectedReply, setSelectedReply] = useState(null) // the reply that was selected 
-
-  // function to enerate reply
-  async function generateReply() {
-    setLoading(true)
-    const resp = await ReplyChain.invoke({
-      // subject, body, sentiment
-      subject: email.subject,
-      sentiment: email.sentiment,
-      body: email.body,
-    });
-    setReply(resp);
-    setLoading(false)
-  }
 
   // function to handle reply select
   function handleSelectReply(reply) {
@@ -28,7 +13,7 @@ function EmailDetail({ email }) {
   }
 
   // function to handle reply cancel
-  function handleCancelReply(params) {
+  function handleCancelReply() {
     setSelectedReply(null)
   } 
 
@@ -75,10 +60,10 @@ function EmailDetail({ email }) {
             </div>
           </div>
         </div>
-
+        {/* if we dont have a reply selected keep displaying the Replysection otherwise show the editor */}
         {!selectedReply ? (
           <SmartReplySection
-            sentiment={email.sentiment || 'neutral'}
+            email={email}
             onSelectReply={handleSelectReply}
           />
         ) : (
