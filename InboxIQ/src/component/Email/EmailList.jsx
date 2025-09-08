@@ -21,7 +21,6 @@ function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
     selectedCategory == "all"
       ? email
       : email.filter((em) => em.category === selectedCategory);
-  console.log(filteredEmails);
   return (
     <div className="w-full md:w-96 bg-white border-r border-gray-200 overflow-y-auto">
       <div className="p-4 border-b border-gray-200 flex justify-between items-center">
