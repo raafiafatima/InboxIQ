@@ -3,6 +3,7 @@ import ReplyChain from "../../SmartReply";
 import { Clock} from "lucide-react";
 import { titleCase } from "title-case";
 import SmartReplySection from "../ui/SmartReplySection";
+import ResponseEditor from "../ui/ResponseEditor";
 
 // create and export the chain, invoke once the specified email is clicked
 function EmailDetail({ email }) {
@@ -67,12 +68,11 @@ function EmailDetail({ email }) {
             onSelectReply={handleSelectReply}
           />
         ) : (
-          // <ResponseEditor
-          //   selectedReply={selectedReply}
-          //   onCancel={handleCancelReply}
-          //   email={email}
-          // />
-          null
+          <ResponseEditor
+            selectedReply={selectedReply}
+            onCancel={handleCancelReply}
+            email={email}
+          />
         )}
       </div>
     </div>
