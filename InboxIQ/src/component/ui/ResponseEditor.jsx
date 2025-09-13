@@ -13,8 +13,9 @@ function ResponseEditor({ selectedReply, onCancel, email, replySent }) {
 
   // for setting the reply 
   useEffect(() => {
+    setIsSent(false);  
     setEditedreply(selectedReply);
-  }, [selectedReply]);
+  }, [email, selectedReply]);
 
   const textareaRef = useRef(null);
   // function for keeping the cursor focused on the text area while the user is typing

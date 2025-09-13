@@ -17,7 +17,7 @@ function EmailDetail({ email, onReplySent }) {
 
   // function to handle reply cancel
   function handleCancelReply() {
-    // setSelectedReply(null);
+    setSelectedReply(null);
     setShow(false)
   }
 
