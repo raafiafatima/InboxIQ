@@ -1,56 +1,63 @@
-import { AlertCircle, Check, Edit3, Send, X } from 'lucide-react'
-import React, { useEffect, useRef, useState } from 'react'
-import { titleCase } from 'title-case'
-import { supabase, updateReply } from '../../supabaseClient'
+import { AlertCircle, Check, Edit3, Send, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { titleCase } from "title-case";
+import { supabase, updateReply } from "../../supabaseClient";
 
-// fix the cancel issue and store data in the DB 
-function ResponseEditor({selectedReply, onCancel, email}) {
-    const [editedreply, setEditedreply] = useState(selectedReply) // the reply we finally get, initially it is the selected reply 
-    const [editing, setEditing] = useState(false)
-    const [sending, setSending] = useState(false)
-    const [isSent, setIsSent] = useState(false)
-    const [showAIWarning, setShowAIWarning] = useState(false)
+// fix the cancel issue and store data in the DB
+function ResponseEditor({ selectedReply, onCancel, email, replySent }) {
+  const [editedreply, setEditedreply] = useState(selectedReply); // the reply we finally get, initially it is the selected reply
+  const [editing, setEditing] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+  const [showAIWarning, setShowAIWarning] = useState(false);
 
+  // for setting the reply 
+  useEffect(() => {
+    setEditedreply(selectedReply);
+  }, [selectedReply]);
 
-    const textareaRef = useRef(null)
-    // function for keeping the cursor focused on the text area while the user is typing 
-    useEffect(() => {
+  const textareaRef = useRef(null);
+  // function for keeping the cursor focused on the text area while the user is typing
+  useEffect(() => {
     if (editing && textareaRef.current) {
-      textareaRef.current.focus()
+      textareaRef.current.focus();
       textareaRef.current.setSelectionRange(
         textareaRef.current.value.length,
-        textareaRef.current.value.length,
-      )
+        textareaRef.current.value.length
+      );
     }
-  }, [editing])
+  }, [editing]);
 
-  // once the data gets send, the reply should be stored in the database. 
+  // once the data gets send, the reply should be stored in the database.
   const handleSend = async () => {
-    setSending(true)
-    const { data, error }= await updateReply(editedreply, email.id)
-    if (error) {
-    console.log('Error updating reply:', error)
-    setIsSent(false)
-  } else if (data && data.length > 0) {
-    console.log('Reply saved:', data)
-    setIsSent(true)
-  } else {
-    console.log('No rows updated (check email.id)')
-    setIsSent(false)
-  }
-
-  setSending(false)
-  }
-  const handleEdit = () => {
-    setEditing(true)
-  }
-  const handleSaveEdit = () => {
-    setEditing(false)
-    if (editedreply !== selectedReply) {
-      setShowAIWarning(true)
+    setSending(true);
+    const { data, error } = await updateReply(editedreply, email.id);
+    if (!error) {
+      replySent?.(email.id);
     }
-  }
-//   for when the response is sent and stored in the database 
+    if (error) {
+      console.log("Error updating reply:", error);
+      setIsSent(false);
+    } else if (data && data.length > 0) {
+      console.log("Reply saved:", data);
+      setIsSent(true);
+    } else {
+      console.log("No rows updated (check email.id)");
+      setIsSent(false);
+    }
+
+    setSending(false);
+  };
+  const handleEdit = () => {
+    setEditing(true);
+  };
+  const handleSaveEdit = () => {
+    setEditing(false);
+    if (editedreply !== selectedReply) {
+      setShowAIWarning(true);
+    }
+  };
+  //   for when the response is sent and stored in the database
   if (isSent) {
     return (
       <div className="border-t border-gray-200 mt-4 pt-4">
@@ -62,17 +69,18 @@ function ResponseEditor({selectedReply, onCancel, email}) {
             </h3>
           </div>
           <p className="text-green-700 mt-1 text-sm">
-            Your response to {titleCase(email.sender.split(".")[0])} has been sent.
+            Your response to {titleCase(email.sender.split(".")[0])} has been
+            sent.
           </p>
         </div>
       </div>
-    )
+    );
   }
- return (
+  return (
     <div className="border-t border-gray-200 mt-4 pt-4">
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-sm font-medium text-gray-700">
-          {editing ? 'Edit Response' : 'Selected Response'}
+          {editing ? "Edit Response" : "Selected Response"}
         </h3>
         <div className="flex space-x-2">
           {!editing ? (
@@ -96,7 +104,7 @@ function ResponseEditor({selectedReply, onCancel, email}) {
             onClick={onCancel}
             className="text-gray-500 hover:text-gray-700 text-sm flex items-center"
           >
-            <   X size={14} className="mr-1" />
+            <X size={14} className="mr-1" />
             Cancel
           </button>
         </div>
@@ -135,7 +143,11 @@ function ResponseEditor({selectedReply, onCancel, email}) {
         <button
           onClick={handleSend}
           disabled={sending}
-          className={`px-4 py-2 rounded-md flex items-center ${sending ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
+          className={`px-4 py-2 rounded-md flex items-center ${
+            sending
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-blue-600 text-white hover:bg-blue-700"
+          }`}
         >
           {sending ? (
             <>
@@ -151,7 +163,7 @@ function ResponseEditor({selectedReply, onCancel, email}) {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default ResponseEditor
+export default ResponseEditor;

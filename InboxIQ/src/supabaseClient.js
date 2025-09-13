@@ -7,7 +7,7 @@ export const supabase = createClient(supabaseURL, supabaseAnonKey);
 
 export async function getEmails() {
     try {
-        let { data: emails, error } = await supabase.from("emails").select("*");
+        let { data: emails, error } = await supabase.from("emails").select("*").is('reply', null);
         return emails
     } catch (error) {
         console.log("Error fetching emails: ", error);

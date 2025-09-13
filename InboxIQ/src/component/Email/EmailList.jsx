@@ -3,24 +3,12 @@ import React, { useEffect, useState } from "react";
 import { CategoryBadge } from "./CategoryBadge";
 import { getEmails } from "../../supabaseClient";
 
-function EmailList({ selectedEmail, setSelectedEmail, selectedCategory }) {
-  const [email, setEmail] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchEmails() {
-      setLoading(true);
-      const data = await getEmails();
-      setEmail(data);
-      setLoading(false);
-    }
-    fetchEmails();
-  }, []);
-
+function EmailList({ emailList, loading, selectedEmail, setSelectedEmail, selectedCategory }) {
+  
   const filteredEmails =
     selectedCategory == "all"
-      ? email
-      : email.filter((em) => em.category === selectedCategory);
+      ? emailList
+      : emailList.filter((em) => em.category === selectedCategory);
   return (
     <div className="w-full md:w-96 bg-white border-r border-gray-200 overflow-y-auto">
       <div className="p-4 border-b border-gray-200 flex justify-between items-center">

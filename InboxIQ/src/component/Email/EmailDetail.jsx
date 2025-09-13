@@ -5,23 +5,27 @@ import SmartReplySection from "../ui/SmartReplySection";
 import ResponseEditor from "../ui/ResponseEditor";
 
 // create and export the chain, invoke once the specified email is clicked
-function EmailDetail({ email }) {
+function EmailDetail({ email, onReplySent }) {
   const [selectedReply, setSelectedReply] = useState(null); // the reply that was selected
+  const[show, setShow] = useState(false)
 
   // function to handle reply select
   function handleSelectReply(reply) {
     setSelectedReply(reply);
+    setShow(true)
   }
 
   // function to handle reply cancel
   function handleCancelReply() {
-    setSelectedReply(null);
+    // setSelectedReply(null);
+    setShow(false)
   }
 
-  // set the reply to null and open the smart response section 
+  // set the reply to null and open the smart response section
   useEffect(() => {
-    setSelectedReply(null)
-  }, [email])
+    setSelectedReply(null);
+    setShow(false);
+  }, [email]);
 
   const senderInitial = email.sender
     ? email.sender.charAt(0).toUpperCase()
@@ -67,15 +71,17 @@ function EmailDetail({ email }) {
           </div>
         </div>
         {/* if we dont have a reply selected keep displaying the Replysection otherwise show the editor */}
-        {!selectedReply ? (
+        <div className={show ? "hidden" : "block"}>
           <SmartReplySection email={email} onSelectReply={handleSelectReply} />
-        ) : (
+        </div>
+        <div className={show ? "block" : "hidden"}>
           <ResponseEditor
             selectedReply={selectedReply}
             onCancel={handleCancelReply}
             email={email}
+            replySent={onReplySent}
           />
-        )}
+        </div>
       </div>
     </div>
   );
