@@ -1,7 +1,9 @@
 import { AlertCircle, Check, Edit3, Send, X } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { titleCase } from 'title-case'
+import { supabase, updateReply } from '../../supabaseClient'
 
+// fix the cancel issue and store data in the DB 
 function ResponseEditor({selectedReply, onCancel, email}) {
     const [editedreply, setEditedreply] = useState(selectedReply) // the reply we finally get, initially it is the selected reply 
     const [editing, setEditing] = useState(false)
@@ -22,13 +24,22 @@ function ResponseEditor({selectedReply, onCancel, email}) {
     }
   }, [editing])
 
-  const handleSend = () => {
+  // once the data gets send, the reply should be stored in the database. 
+  const handleSend = async () => {
     setSending(true)
-    // Simulate sending delay
-    setTimeout(() => {
-      setSending(false)
-      setIsSent(true)
-    }, 1500)
+    const { data, error }= await updateReply(editedreply, email.id)
+    if (error) {
+    console.log('Error updating reply:', error)
+    setIsSent(false)
+  } else if (data && data.length > 0) {
+    console.log('Reply saved:', data)
+    setIsSent(true)
+  } else {
+    console.log('No rows updated (check email.id)')
+    setIsSent(false)
+  }
+
+  setSending(false)
   }
   const handleEdit = () => {
     setEditing(true)

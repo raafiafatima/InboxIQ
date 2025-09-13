@@ -18,7 +18,6 @@ function SmartReplySection({ email, onSelectReply }) {
         });
         const replies = Object.values(data)
         setResponse(replies)
-        console.log(replies)
       } catch (err) {
         console.error("Error generating reply:", err);
         setResponse([]);

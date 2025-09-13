@@ -14,3 +14,18 @@ export async function getEmails() {
         return [];
     }
 }
+
+export async function updateReply(text, emailID) {
+   let { data, error } = await supabase
+    .from('emails')
+    .update({ reply: text })
+    .eq('id', emailID)
+    .select()
+
+  if (error) {
+    console.error('Error updating replies:', error)
+    return { data: null, error }
+  }
+  return { data, error: null }
+
+}

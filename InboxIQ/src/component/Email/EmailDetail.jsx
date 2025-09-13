@@ -1,23 +1,27 @@
-import React, { useState } from "react";
-import ReplyChain from "../../SmartReply";
-import { Clock} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Clock } from "lucide-react";
 import { titleCase } from "title-case";
 import SmartReplySection from "../ui/SmartReplySection";
 import ResponseEditor from "../ui/ResponseEditor";
 
 // create and export the chain, invoke once the specified email is clicked
 function EmailDetail({ email }) {
-  const[selectedReply, setSelectedReply] = useState(null) // the reply that was selected 
+  const [selectedReply, setSelectedReply] = useState(null); // the reply that was selected
 
   // function to handle reply select
   function handleSelectReply(reply) {
-    setSelectedReply(reply)
+    setSelectedReply(reply);
   }
 
   // function to handle reply cancel
   function handleCancelReply() {
+    setSelectedReply(null);
+  }
+
+  // set the reply to null and open the smart response section 
+  useEffect(() => {
     setSelectedReply(null)
-  } 
+  }, [email])
 
   const senderInitial = email.sender
     ? email.sender.charAt(0).toUpperCase()
@@ -64,9 +68,7 @@ function EmailDetail({ email }) {
         </div>
         {/* if we dont have a reply selected keep displaying the Replysection otherwise show the editor */}
         {!selectedReply ? (
-          <SmartReplySection            email={email}
-            onSelectReply={handleSelectReply}
-          />
+          <SmartReplySection email={email} onSelectReply={handleSelectReply} />
         ) : (
           <ResponseEditor
             selectedReply={selectedReply}
